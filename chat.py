@@ -50,16 +50,37 @@ while True:
         }
     )
 
-    response = client.messages.create(
+    # response = client.messages.create(
+    #     model=MODEL,
+    #     max_tokens=800,
+    #     system=SYSTEM,
+    #     messages=history,
+    # )
+
+    # reply = response.content[0].text
+
+    #print("bot>", reply)
+
+    with client.messages.stream(
         model=MODEL,
         max_tokens=800,
         system=SYSTEM,
         messages=history,
+    ) as stream:
+        print("bot> ", end="")
+
+        for chunk in stream.text_stream:
+            print(chunk, end="", flush=True)
+
+        print()
+
+        final = stream.get_final_message()
+
+    reply = "".join(
+        block.text
+        for block in final.content
+        if block.type == "text"
     )
-
-    reply = response.content[0].text
-
-    print("bot>", reply)
 
     history.append(
         {
