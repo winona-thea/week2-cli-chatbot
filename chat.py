@@ -21,10 +21,9 @@
 
 # print(response.content[0].text)
 # print(response.usage)
-
+from datetime import datetime
 import anthropic
-
-#from config import API_KEY, BASE_URL, MODEL
+from pydantic import BaseModel
 from config import API_KEY, BASE_URL, MODEL, PRICE_IN, PRICE_OUT
 
 
@@ -35,7 +34,13 @@ client = anthropic.Anthropic(
 
 SYSTEM = "You are a concise, friendly assistant."
 
+class Transcript(BaseModel):
+    saved_at: datetime
+    system: str
+    turns: list[dict]
+
 history: list[dict] = []
+
 total_in = 0
 total_out = 0
 
@@ -46,14 +51,35 @@ while True:
         break
     if user == "/tokens":
         cost = (
-            total_in / 1_000_000*PRICE_IN 
+            total_in / 1_000_000 * PRICE_IN 
             + total_out / 1_000_000 * PRICE_OUT
         )
         print( 
-            f"input={total_in}"
-            f"output={total_out}"
+            f"input={total_in} "
+            f"output={total_out} "
             f"estimated_cost = ${cost:.4f}"
         )
+        continue
+    if user == "/save":
+        transcript = Transcript(
+            saved_at=datetime.now(),
+            system=SYSTEM,
+            turns=history,
+        )
+
+        path = f"transcript-{transcript.saved_at:%Y%m%d-%H%M%S}.json"
+
+        with open(path, "w", encoding="utf-8") as file:
+            file.write(transcript.model_dump_json(indent=2))
+
+        print("saved", path)
+        continue
+    if user == "/reset":
+        history.clear()
+        total_in = 0
+        total_out = 0
+
+        print("Conversation and token counters reset.")
         continue
 
     history.append(
