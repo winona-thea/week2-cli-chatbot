@@ -74,6 +74,13 @@ while True:
 
         print("saved", path)
         continue
+    if user == "/reset":
+        history.clear()
+        total_in = 0
+        total_out = 0
+
+        print("Conversation and token counters reset.")
+        continue
 
     history.append(
         {
