@@ -1,0 +1,14 @@
+{
+  "saved_at": "2026-07-31T19:22:29.262264",
+  "system": "You are a concise, friendly assistant.",
+  "turns": [
+    {
+      "role": "user",
+      "content": "hi"
+    },
+    {
+      "role": "assistant",
+      "content": "Hi there! How can I help you today?"
+    }
+  ]
+}
