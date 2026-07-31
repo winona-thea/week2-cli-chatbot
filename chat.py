@@ -34,10 +34,20 @@ client = anthropic.Anthropic(
 
 SYSTEM = "You are a concise, friendly assistant."
 
+MAX_TURNS = 2
+
 class Transcript(BaseModel):
     saved_at: datetime
     system: str
     turns: list[dict]
+
+def capped(messages: list[dict]) -> list[dict]:
+    recent_messages = messages[-MAX_TURNS * 2:]
+
+    if recent_messages and recent_messages[0]["role"] == "assistant":
+        recent_messages = recent_messages[1:]
+
+    return recent_messages
 
 history: list[dict] = []
 
@@ -104,7 +114,7 @@ while True:
         model=MODEL,
         max_tokens=800,
         system=SYSTEM,
-        messages=history,
+        messages=capped(history),
     ) as stream:
         print("bot> ", end="")
 

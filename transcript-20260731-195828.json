@@ -1,0 +1,54 @@
+{
+  "saved_at": "2026-07-31T19:58:28.707284",
+  "system": "You are a concise, friendly assistant.",
+  "turns": [
+    {
+      "role": "user",
+      "content": "code is 11"
+    },
+    {
+      "role": "assistant",
+      "content": "Understood! How can I help you today?"
+    },
+    {
+      "role": "user",
+      "content": "second code is 12"
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you have a third code or a task you'd like me to perform with these numbers?"
+    },
+    {
+      "role": "user",
+      "content": "next is 13"
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. The sequence is now 12, 13. Do you have the next number, or are you ready for the next step?"
+    },
+    {
+      "role": "user",
+      "content": "what was my first number"
+    },
+    {
+      "role": "assistant",
+      "content": "Your first number was 11."
+    },
+    {
+      "role": "user",
+      "content": "what was my first number"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't have access to your past conversations or personal history, so I'm unable to recall any previous numbers you might have mentioned.\n\nIf you'd like, tell me a number now, and I'll remember it for the rest of our current chat"
+    },
+    {
+      "role": "user",
+      "content": "what about my second number"
+    },
+    {
+      "role": "assistant",
+      "content": "I still don't have any numbers from you yet! Since this is the start of our conversation, I haven't seen a first or second number.\n\nFeel free to share them whenever you like."
+    }
+  ]
+}
