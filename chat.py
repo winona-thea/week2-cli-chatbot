@@ -24,7 +24,8 @@
 
 import anthropic
 
-from config import API_KEY, BASE_URL, MODEL
+#from config import API_KEY, BASE_URL, MODEL
+from config import API_KEY, BASE_URL, MODEL, PRICE_IN, PRICE_OUT
 
 
 client = anthropic.Anthropic(
@@ -35,13 +36,25 @@ client = anthropic.Anthropic(
 SYSTEM = "You are a concise, friendly assistant."
 
 history: list[dict] = []
-
+total_in = 0
+total_out = 0
 
 while True:
     user = input("you> ").strip()
 
     if user in {"/quit", "exit"}:
         break
+    if user == "/tokens":
+        cost = (
+            total_in / 1_000_000*PRICE_IN 
+            + total_out / 1_000_000 * PRICE_OUT
+        )
+        print( 
+            f"input={total_in}"
+            f"output={total_out}"
+            f"estimated_cost = ${cost:.4f}"
+        )
+        continue
 
     history.append(
         {
@@ -81,6 +94,8 @@ while True:
         for block in final.content
         if block.type == "text"
     )
+    total_in += final.usage.input_tokens
+    total_out += final.usage.output_tokens
 
     history.append(
         {
